@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    <a href="/admin">&larr; Back to Dashboard</a>
+
+    <% if (users && users.length > 0) { %>
+        <div class="users-table">
+            <% users.forEach(listUser => { %>
+                <div class="user-row">
+                    <div class="user-info">
+                        <strong><%= listUser.name %></strong>
+                        <span><%= listUser.email %></span>
+                        <span class="role-badge"><%= listUser.roleName %></span>
+                    </div>
+
+                    <% if (user.id !== listUser.id) { %>
+                        <div class="user-actions">
+                            <form method="POST" action="/admin/users/<%= listUser.id %>/role" class="inline-form">
+                                <select name="roleId">
+                                    <% roles.forEach(role => { %>
+                                        <option value="<%= role.id %>" <%= role.role_name === listUser.roleName ? 'selected' : '' %>>
+                                            <%= role.role_name %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                                <button type="submit">Update Role</button>
+                            </form>
+                            <form method="POST" action="/admin/users/<%= listUser.id %>/delete" class="inline-form">
+                                <button type="submit" onclick="return confirm('Delete this user?')">Delete</button>
+                            </form>
+                        </div>
+                    <% } else { %>
+                        <span class="self-note">(your account)</span>
+                    <% } %>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p class="no-results">No users found.</p>
+    <% } %>
+</main>
+<%- include('../partials/footer') %>

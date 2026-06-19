@@ -1,0 +1,20 @@
+<%- include('../../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    <form method="POST" action="/service/new" class="form">
+        <div class="form-group">
+            <label for="vehicleDescription">Vehicle Description</label>
+            <input type="text" id="vehicleDescription" name="vehicleDescription" minlength="2" required placeholder="e.g. 2018 Honda Civic">
+        </div>
+        <div class="form-group">
+            <label for="serviceType">Service Type</label>
+            <input type="text" id="serviceType" name="serviceType" minlength="2" required placeholder="e.g. Oil Change, Inspection">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="5" minlength="10" required placeholder="Describe the issue or service needed"></textarea>
+        </div>
+        <button type="submit">Submit Request</button>
+    </form>
+</main>
+<%- include('../../partials/footer') %>

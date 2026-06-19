@@ -1,0 +1,28 @@
+<%- include('../partials/header') %>
+<main>
+    <a href="/inventory">&larr; Back to Inventory</a>
+
+    <h1><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h1>
+
+    <% if (images && images.length > 0) { %>
+        <div class="vehicle-images">
+            <% images.forEach(image => { %>
+                <img src="<%= image.image_url %>" alt="<%= vehicle.make %> <%= vehicle.model %>" class="vehicle-photo">
+            <% }); %>
+        </div>
+    <% } %>
+
+    <div class="vehicle-details">
+        <p class="vehicle-price">$<%= Number(vehicle.price).toLocaleString() %></p>
+        <p><strong>Mileage:</strong> <%= vehicle.mileage ? vehicle.mileage.toLocaleString() + ' mi' : 'N/A' %></p>
+        <p><strong>Color:</strong> <%= vehicle.color || 'N/A' %></p>
+        <p><strong>Category:</strong> <%= vehicle.category_name || 'Uncategorized' %></p>
+        <p><strong>Description:</strong></p>
+        <p><%= vehicle.description || 'No description available.' %></p>
+    </div>
+
+    <% if (isLoggedIn) { %>
+        <a href="/inventory/<%= vehicle.id %>/review">Leave a Review</a>
+    <% } %>
+</main>
+<%- include('../partials/footer') %>

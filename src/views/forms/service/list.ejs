@@ -1,0 +1,29 @@
+<%- include('../../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    <a href="/service/new">+ Submit New Request</a>
+
+    <% if (requests && requests.length > 0) { %>
+        <div class="service-list">
+            <% requests.forEach(request => { %>
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3><%= request.service_type %></h3>
+                        <span class="status-badge status-<%= request.status.toLowerCase().replace(' ', '-') %>">
+                            <%= request.status %>
+                        </span>
+                    </div>
+                    <p><strong>Vehicle:</strong> <%= request.vehicle_description %></p>
+                    <p><strong>Description:</strong> <%= request.description %></p>
+                    <% if (request.employee_notes) { %>
+                        <p><strong>Notes from staff:</strong> <%= request.employee_notes %></p>
+                    <% } %>
+                    <p class="service-date">Submitted: <%= new Date(request.created_at).toLocaleDateString() %></p>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p class="no-results">You haven't submitted any service requests yet.</p>
+    <% } %>
+</main>
+<%- include('../../partials/footer') %>

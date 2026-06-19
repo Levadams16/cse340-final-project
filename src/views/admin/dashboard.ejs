@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+    <p>Welcome, <%= user ? user.name : '' %>. Use the links below to manage the dealership.</p>
+
+    <div class="admin-links">
+        <% if (userRole === 'owner') { %>
+            <a href="/admin/users" class="admin-link-card">
+                <h2>Manage Users</h2>
+                <p>View, promote, and remove user accounts</p>
+            </a>
+        <% } %>
+        <a href="/admin/vehicles" class="admin-link-card">
+            <h2>Manage Vehicles</h2>
+            <p>Add, edit, and remove inventory</p>
+        </a>
+        <a href="/admin/service-requests" class="admin-link-card">
+            <h2>Service Requests</h2>
+            <p>View and update request statuses</p>
+        </a>
+        <a href="/admin/contact-messages" class="admin-link-card">
+            <h2>Contact Messages</h2>
+            <p>View messages from customers</p>
+        </a>
+        <a href="/admin/reviews" class="admin-link-card">
+            <h2>Moderate Reviews</h2>
+            <p>Remove inappropriate reviews</p>
+        </a>
+    </div>
+</main>
+<%- include('../partials/footer') %>

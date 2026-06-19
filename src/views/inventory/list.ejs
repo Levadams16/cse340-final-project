@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+
+    <div class="category-filters">
+        <a href="/inventory" class="<%= !currentCategory ? 'active' : '' %>">All</a>
+        <% categories.forEach(category => { %>
+            <a href="/inventory?category=<%= category.name %>" class="<%= currentCategory === category.name ? 'active' : '' %>">
+                <%= category.name %>
+            </a>
+        <% }); %>
+    </div>
+
+    <% if (vehicles && vehicles.length > 0) { %>
+        <div class="vehicle-grid">
+            <% vehicles.forEach(vehicle => { %>
+                <div class="vehicle-card">
+                    <h2><a href="/inventory/<%= vehicle.id %>"><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></a></h2>
+                    <p class="vehicle-price">$<%= Number(vehicle.price).toLocaleString() %></p>
+                    <p><strong>Mileage:</strong> <%= vehicle.mileage ? vehicle.mileage.toLocaleString() + ' mi' : 'N/A' %></p>
+                    <p><strong>Category:</strong> <%= vehicle.category_name || 'Uncategorized' %></p>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p class="no-results">No vehicles available right now. Check back soon!</p>
+    <% } %>
+</main>
+<%- include('../partials/footer') %>
