@@ -12,7 +12,7 @@ services:
       - key: DB_URL
         sync: false
       - key: CA_CERT_PATH
-        value: ./src/config/byuicse-psql-cert.pem
+        value: ./src/certs/byuicse-psql-cert.pem
       - key: SESSION_SECRET
         sync: false
       - key: PORT
