@@ -1,5 +1,3 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -8,8 +6,8 @@ import session from 'express-session';
 import connectPgSimple from 'connect-pg-simple';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import fs from 'fs';
 
-import { caCert } from './src/models/db.js';
 import { startSessionCleanup } from './src/utils/session-cleanup.js';
 import { addLocalVariables } from './src/middleware/global.js';
 import flash from './src/middleware/flash.js';
@@ -27,7 +25,10 @@ app.use(session({
     store: new pgSession({
         conObject: {
             connectionString: process.env.DB_URL,
-            ssl: { rejectUnauthorized: false }
+            ssl: {
+                rejectUnauthorized: true,
+                ca: fs.readFileSync(process.env.CA_CERT_PATH).toString()
+            }
         },
         tableName: 'session',
         createTableIfMissing: true

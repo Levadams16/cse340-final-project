@@ -3,13 +3,13 @@ dotenv.config();
 
 import pkg from 'pg';
 const { Pool } = pkg;
-
-export const caCert = process.env.CA_CERT || '';
+import fs from 'fs';
 
 const pool = new Pool({
     connectionString: process.env.DB_URL,
     ssl: {
-        rejectUnauthorized: false
+        rejectUnauthorized: true,
+        ca: fs.readFileSync(process.env.CA_CERT_PATH).toString()
     }
 });
 
