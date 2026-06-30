@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: cse340-final-project
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm install -g pnpm && pnpm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_URL
+        sync: false
+      - key: CA_CERT_PATH
+        value: ./src/config/byuicse-psql-cert.pem
+      - key: SESSION_SECRET
+        sync: false
+      - key: PORT
+        value: 3000
