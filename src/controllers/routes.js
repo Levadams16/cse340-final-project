@@ -10,7 +10,10 @@ import adminRoutes from './admin/admin.js';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('home', { title: 'Welcome to Our Dealership' });
+    res.render('home', { 
+        title: 'Welcome to Our Dealership',
+        styles: ['<link rel="stylesheet" href="/css/home.css">']
+    });
 });
 
 router.use('/login', loginRoutes);
@@ -23,7 +26,11 @@ router.get('/logout', processLogout);
 
 
 router.get('/account', requireLogin, (req, res) => {
-    res.render('account', { title: 'My Account', user: req.session.user });
+    res.render('account', { 
+        title: 'My Account', 
+        user: req.session.user,
+        styles: []
+    });
 });
 
 export default router;

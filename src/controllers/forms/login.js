@@ -6,7 +6,7 @@ import { loginValidation } from '../../middleware/validation/forms.js';
 const router = Router();
 
 const showLoginForm = (req, res) => {
-    res.render('forms/login/form', { title: 'Log In' });
+    res.render('forms/login/form', { title: 'Log In', styles: [] });
 };
 
 const processLogin = async (req, res) => {

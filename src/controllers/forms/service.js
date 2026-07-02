@@ -25,7 +25,7 @@ const showServiceRequests = async (req, res) => {
 };
 
 const showServiceRequestForm = (req, res) => {
-    res.render('forms/service/form', { title: 'Submit a Service Request' });
+    res.render('forms/service/form', { title: 'Submit a Service Request', styles: [] });
 };
 
 const processServiceRequest = async (req, res) => {

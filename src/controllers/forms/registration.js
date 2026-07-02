@@ -7,7 +7,7 @@ import { registrationValidation } from '../../middleware/validation/forms.js';
 const router = Router();
 
 const showRegistrationForm = (req, res) => {
-    res.render('forms/registration/form', { title: 'Create an Account' });
+    res.render('forms/registration/form', { title: 'Create an Account', styles: [] });
 };
 
 const processRegistration = async (req, res) => {

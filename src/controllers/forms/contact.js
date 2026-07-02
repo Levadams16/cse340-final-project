@@ -6,7 +6,7 @@ import { contactValidation } from '../../middleware/validation/forms.js';
 const router = Router();
 
 const showContactForm = (req, res) => {
-    res.render('forms/contact/form', { title: 'Contact Us' });
+    res.render('forms/contact/form', { title: 'Contact Us', styles: [] });
 };
 
 const handleContactSubmission = async (req, res) => {

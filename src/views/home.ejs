@@ -1,7 +1,74 @@
 <%- include('partials/header') %>
+
 <main>
-    <h1>Welcome to Our Dealership</h1>
-    <p>Browse our selection of quality used vehicles.</p>
-    <a href="/inventory">Browse Vehicles</a>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-eyebrow">Quality Pre-Owned Vehicles</p>
+            <h1 class="hero-title">Find Your Next Car With Confidence</h1>
+            <p class="hero-subtitle">Browse our carefully inspected inventory of trucks, SUVs, cars, and vans — all priced fairly and ready to drive.</p>
+            <div class="hero-actions">
+                <a href="/inventory" class="btn btn-primary">Browse Inventory</a>
+                <a href="/contact" class="btn btn-secondary">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Cards -->
+    <section class="categories">
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="category-grid">
+            <a href="/inventory?category=trucks" class="category-card">
+                <span class="category-icon">🚛</span>
+                <h3>Trucks</h3>
+                <p>Pickup trucks and work vehicles</p>
+            </a>
+            <a href="/inventory?category=vans" class="category-card">
+                <span class="category-icon">🚐</span>
+                <h3>Vans</h3>
+                <p>Minivans and cargo vans</p>
+            </a>
+            <a href="/inventory?category=cars" class="category-card">
+                <span class="category-icon">🚗</span>
+                <h3>Cars</h3>
+                <p>Sedans, coupes, and hatchbacks</p>
+            </a>
+            <a href="/inventory?category=suvs" class="category-card">
+                <span class="category-icon">🚙</span>
+                <h3>SUVs</h3>
+                <p>Sport utility vehicles and crossovers</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="features">
+        <h2 class="section-title">Why Choose Us</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">✅</span>
+                <h3>Inspected Vehicles</h3>
+                <p>Every vehicle goes through a thorough inspection before hitting our lot.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💰</span>
+                <h3>Fair Pricing</h3>
+                <p>Transparent, no-haggle pricing so you know exactly what you're paying.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🔧</span>
+                <h3>Service Support</h3>
+                <p>Need maintenance? Our service team is here to keep your car running.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Ready to Find Your Vehicle?</h2>
+        <p>Browse our full inventory or get in touch — we're happy to help.</p>
+        <a href="/inventory" class="btn btn-primary">View All Vehicles</a>
+    </section>
 </main>
+
 <%- include('partials/footer') %>

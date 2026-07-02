@@ -30,7 +30,8 @@ const showInventory = async (req, res) => {
         title: 'Browse Vehicles',
         vehicles,
         categories,
-        currentCategory: categoryFilter || null
+        currentCategory: categoryFilter || null,
+        styles: []
     });
 };
 
@@ -50,7 +51,8 @@ const showVehicleDetail = async (req, res) => {
         res.render('inventory/detail', {
             title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
             vehicle,
-            images
+            images,
+            styles: []
         });
     } catch (error) {
         console.error('Error loading vehicle:', error);
