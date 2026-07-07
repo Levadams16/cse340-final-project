@@ -14,6 +14,19 @@ const getAllVehicles = async () => {
     return result.rows;
 };
 
+const getAllVehiclesAdmin = async () => {
+    const query = `
+        SELECT 
+            vehicles.*,
+            categories.name AS category_name
+        FROM vehicles
+        LEFT JOIN categories ON vehicles.category_id = categories.id
+        ORDER BY vehicles.created_at DESC
+    `;
+    const result = await db.query(query);
+    return result.rows;
+};
+
 const getVehiclesByCategory = async (categoryName) => {
     const query = `
         SELECT 
@@ -57,10 +70,51 @@ const getAllCategories = async () => {
     return result.rows;
 };
 
+const createVehicle = async ({ make, model, year, price, mileage, color, description, categoryId }) => {
+    const query = `
+        INSERT INTO vehicles (make, model, year, price, mileage, color, description, category_id)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING *
+    `;
+    const result = await db.query(query, [make, model, year, price, mileage, color, description, categoryId]);
+    return result.rows[0];
+};
+
+const updateVehicle = async (id, { make, model, year, price, mileage, color, description, categoryId, isAvailable }) => {
+    const query = `
+        UPDATE vehicles
+        SET 
+            make = $1,
+            model = $2,
+            year = $3,
+            price = $4,
+            mileage = $5,
+            color = $6,
+            description = $7,
+            category_id = $8,
+            is_available = $9,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = $10
+        RETURNING *
+    `;
+    const result = await db.query(query, [make, model, year, price, mileage, color, description, categoryId, isAvailable, id]);
+    return result.rows[0] || null;
+};
+
+const deleteVehicle = async (id) => {
+    const query = `DELETE FROM vehicles WHERE id = $1`;
+    const result = await db.query(query, [id]);
+    return result.rowCount > 0;
+};
+
 export { 
-    getAllVehicles, 
+    getAllVehicles,
+    getAllVehiclesAdmin,
     getVehiclesByCategory, 
     getVehicleById, 
     getVehicleImages,
-    getAllCategories 
+    getAllCategories,
+    createVehicle,
+    updateVehicle,
+    deleteVehicle
 };

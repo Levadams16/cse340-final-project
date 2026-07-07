@@ -6,6 +6,7 @@ import {
     deleteUser 
 } from '../../models/forms/registration.js';
 import { requireRole } from '../../middleware/auth.js';
+import vehicleAdminRoutes from './vehicles.js';
 
 const router = Router();
 
@@ -80,5 +81,7 @@ router.get('/', requireRole('owner', 'employee'), showDashboard);
 router.get('/users', requireRole('owner'), showUserManagement);
 router.post('/users/:id/role', requireRole('owner'), processRoleUpdate);
 router.post('/users/:id/delete', requireRole('owner'), processDeleteUser);
+
+router.use('/vehicles', vehicleAdminRoutes);
 
 export default router;

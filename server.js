@@ -60,6 +60,15 @@ app.use(addLocalVariables);
 app.use(flash);
 app.use(router);
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(err.status || 500).render('error', {
+        title: 'Something Went Wrong',
+        message: err.message || 'An unexpected error occurred.',
+        styles: []
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });

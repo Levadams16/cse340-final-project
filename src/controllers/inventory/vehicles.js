@@ -4,7 +4,11 @@ import {
     getVehiclesByCategory, 
     getVehicleById, 
     getVehicleImages,
-    getAllCategories 
+    getAllCategories,
+    getAllVehiclesAdmin,
+    createVehicle,
+    updateVehicle,
+    deleteVehicle
 } from '../../models/inventory/vehicles.js';
 
 const router = Router();

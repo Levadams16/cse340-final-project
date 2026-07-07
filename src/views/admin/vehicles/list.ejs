@@ -1,0 +1,50 @@
+<%- include('../../partials/header') %>
+<main>
+    <div class="admin-page-header">
+        <h1><%= title %></h1>
+        <a href="/admin/vehicles/add" class="btn btn-primary">+ Add Vehicle</a>
+    </div>
+
+    <% if (vehicles.length === 0) { %>
+        <p class="empty-state">No vehicles in the system yet. Add one to get started.</p>
+    <% } else { %>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Mileage</th>
+                    <th>Available</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% vehicles.forEach(vehicle => { %>
+                    <tr>
+                        <td><%= vehicle.year %></td>
+                        <td><%= vehicle.make %></td>
+                        <td><%= vehicle.model %></td>
+                        <td><%= vehicle.category_name || '—' %></td>
+                        <td>$<%= Number(vehicle.price).toLocaleString() %></td>
+                        <td><%= vehicle.mileage ? Number(vehicle.mileage).toLocaleString() + ' mi' : '—' %></td>
+                        <td><%= vehicle.is_available ? '✅' : '❌' %></td>
+                        <td class="action-buttons">
+                            <a href="/admin/vehicles/<%= vehicle.id %>/edit" class="btn-small btn-edit">Edit</a>
+                            <form action="/admin/vehicles/<%= vehicle.id %>/delete" method="post" onsubmit="return confirm('Delete this vehicle?')">
+                                <button type="submit" class="btn-small btn-delete">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <div class="admin-back">
+        <a href="/admin">← Back to Dashboard</a>
+    </div>
+</main>
+<%- include('../../partials/footer') %>
