@@ -6,6 +6,12 @@ import { requireLogin } from '../middleware/auth.js';
 import contactRoutes from './forms/contact.js';
 import serviceRoutes from './forms/service.js';
 import adminRoutes from './admin/admin.js';
+import { 
+    reviewRoutes, 
+    showReviewForm, 
+    processReview, 
+    reviewValidation 
+} from './forms/review.js';
 
 const router = express.Router();
 
@@ -23,6 +29,9 @@ router.use('/contact', contactRoutes);
 router.use('/service', serviceRoutes);
 router.use('/admin', adminRoutes);
 router.get('/logout', processLogout);
+router.get('/inventory/:vehicleId/review', requireLogin, showReviewForm);
+router.post('/inventory/:vehicleId/review', requireLogin, reviewValidation, processReview);
+router.use('/reviews', reviewRoutes);
 
 
 router.get('/account', requireLogin, (req, res) => {

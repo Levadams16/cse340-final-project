@@ -10,6 +10,7 @@ import {
     updateVehicle,
     deleteVehicle
 } from '../../models/inventory/vehicles.js';
+import { getReviewsByVehicle, hasUserReviewedVehicle } from '../../models/forms/review.js';
 
 const router = Router();
 
@@ -52,10 +53,17 @@ const showVehicleDetail = async (req, res) => {
 
         const images = await getVehicleImages(id);
 
+        const reviews = await getReviewsByVehicle(id);
+        const alreadyReviewed = req.session?.user 
+            ? await hasUserReviewedVehicle(req.session.user.id, id)
+            : false;
+
         res.render('inventory/detail', {
             title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
             vehicle,
             images,
+            reviews,
+            alreadyReviewed,
             styles: []
         });
     } catch (error) {

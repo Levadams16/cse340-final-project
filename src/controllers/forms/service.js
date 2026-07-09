@@ -20,7 +20,8 @@ const showServiceRequests = async (req, res) => {
 
     res.render('forms/service/list', {
         title: 'My Service Requests',
-        requests
+        requests,
+        styles: []
     });
 };
 

@@ -1,0 +1,47 @@
+<%- include('../../partials/header') %>
+<main>
+    <a href="/inventory/<%= vehicle ? vehicle.id : '' %>">&larr; Back to Vehicle</a>
+
+    <h1><%= title %></h1>
+
+    <% if (vehicle) { %>
+        <p class="review-vehicle-name"><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></p>
+    <% } %>
+
+    <form class="review-form" action="<%= review ? '/reviews/' + review.id + '/edit' : '/inventory/' + vehicle.id + '/review' %>" method="post">
+        <div class="form-group">
+            <label>Rating</label>
+            <div class="star-rating">
+                <% for (let i = 1; i <= 5; i++) { %>
+                    <label>
+                        <input 
+                            type="radio" 
+                            name="rating" 
+                            value="<%= i %>"
+                            <%= review && review.rating === i ? 'checked' : '' %>
+                            required
+                        >
+                        <%= i %> ★
+                    </label>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="reviewText">Your Review</label>
+            <textarea 
+                id="reviewText" 
+                name="reviewText" 
+                rows="5" 
+                placeholder="Share your experience with this vehicle (minimum 10 characters)..."
+                required
+            ><%= review ? review.review_text : '' %></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary"><%= review ? 'Save Changes' : 'Submit Review' %></button>
+            <a href="<%= review ? '/reviews' : '/inventory/' + vehicle.id %>" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</main>
+<%- include('../../partials/footer') %>

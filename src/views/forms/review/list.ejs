@@ -1,0 +1,32 @@
+<%- include('../../partials/header') %>
+<main>
+    <h1><%= title %></h1>
+
+    <% if (reviews.length === 0) { %>
+        <p class="empty-state">You haven't written any reviews yet. <a href="/inventory">Browse vehicles</a> to leave one.</p>
+    <% } else { %>
+        <div class="review-list">
+            <% reviews.forEach(review => { %>
+                <div class="review-card">
+                    <div class="review-header">
+                        <h2 class="review-vehicle">
+                            <a href="/inventory/<%= review.vehicle_id %>">
+                                <%= review.year %> <%= review.make %> <%= review.model %>
+                            </a>
+                        </h2>
+                        <span class="review-rating"><%= '★'.repeat(review.rating) %><%= '☆'.repeat(5 - review.rating) %></span>
+                    </div>
+                    <p class="review-text"><%= review.review_text %></p>
+                    <p class="review-date">Posted <%= new Date(review.created_at).toLocaleDateString() %></p>
+                    <div class="review-actions">
+                        <a href="/reviews/<%= review.id %>/edit" class="btn-small btn-edit">Edit</a>
+                        <form action="/reviews/<%= review.id %>/delete" method="post" onsubmit="return confirm('Delete this review?')">
+                            <button type="submit" class="btn-small btn-delete">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</main>
+<%- include('../../partials/footer') %>

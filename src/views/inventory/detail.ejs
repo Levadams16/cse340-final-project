@@ -21,8 +21,36 @@
         <p><%= vehicle.description || 'No description available.' %></p>
     </div>
 
-    <% if (isLoggedIn) { %>
-        <a href="/inventory/<%= vehicle.id %>/review">Leave a Review</a>
-    <% } %>
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <h2>Customer Reviews</h2>
+
+        <% if (reviews && reviews.length > 0) { %>
+            <div class="review-list">
+                <% reviews.forEach(review => { %>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-author"><%= review.user_name %></span>
+                            <span class="review-rating"><%= '★'.repeat(review.rating) %><%= '☆'.repeat(5 - review.rating) %></span>
+                        </div>
+                        <p class="review-text"><%= review.review_text %></p>
+                        <p class="review-date"><%= new Date(review.created_at).toLocaleDateString() %></p>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p class="empty-state">No reviews yet. Be the first to leave one!</p>
+        <% } %>
+
+        <% if (isLoggedIn) { %>
+            <% if (!alreadyReviewed) { %>
+                <a href="/inventory/<%= vehicle.id %>/review" class="btn btn-primary">Leave a Review</a>
+            <% } else { %>
+                <p class="already-reviewed">You have already reviewed this vehicle. <a href="/reviews">View your reviews</a>.</p>
+            <% } %>
+        <% } else { %>
+            <p><a href="/login">Log in</a> to leave a review.</p>
+        <% } %>
+    </section>
 </main>
 <%- include('../partials/footer') %>
