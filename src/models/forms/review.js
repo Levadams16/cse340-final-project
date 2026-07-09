@@ -74,6 +74,24 @@ const hasUserReviewedVehicle = async (userId, vehicleId) => {
     return result.rows[0].exists;
 };
 
+const getAllReviews = async () => {
+    const query = `
+        SELECT 
+            reviews.*,
+            users.name AS user_name,
+            vehicles.make,
+            vehicles.model,
+            vehicles.year,
+            vehicles.id AS vehicle_id
+        FROM reviews
+        INNER JOIN users ON reviews.user_id = users.id
+        INNER JOIN vehicles ON reviews.vehicle_id = vehicles.id
+        ORDER BY reviews.created_at DESC
+    `;
+    const result = await db.query(query);
+    return result.rows;
+};
+
 export {
     createReview,
     getReviewsByVehicle,
@@ -81,5 +99,6 @@ export {
     getReviewById,
     updateReview,
     deleteReview,
-    hasUserReviewedVehicle
+    hasUserReviewedVehicle,
+    getAllReviews
 };

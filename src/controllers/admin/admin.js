@@ -7,6 +7,7 @@ import {
 } from '../../models/forms/registration.js';
 import { requireRole } from '../../middleware/auth.js';
 import vehicleAdminRoutes from './vehicles.js';
+import reviewAdminRoutes from './reviews.js';
 
 const router = Router();
 
@@ -28,7 +29,8 @@ const showUserManagement = async (req, res) => {
     res.render('admin/users', {
         title: 'Manage Users',
         users,
-        roles
+        roles,
+        styles: []
     });
 };
 
@@ -83,5 +85,6 @@ router.post('/users/:id/role', requireRole('owner'), processRoleUpdate);
 router.post('/users/:id/delete', requireRole('owner'), processDeleteUser);
 
 router.use('/vehicles', vehicleAdminRoutes);
+router.use('/reviews', reviewAdminRoutes);
 
 export default router;

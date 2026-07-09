@@ -1,0 +1,48 @@
+<%- include('../partials/header') %>
+<main>
+    <div class="admin-page-header">
+        <h1><%= title %></h1>
+    </div>
+
+    <% if (reviews.length === 0) { %>
+        <p class="empty-state">No reviews to moderate right now.</p>
+    <% } else { %>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Reviewer</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% reviews.forEach(review => { %>
+                    <tr>
+                        <td>
+                            <a href="/inventory/<%= review.vehicle_id %>">
+                                <%= review.year %> <%= review.make %> <%= review.model %>
+                            </a>
+                        </td>
+                        <td><%= review.user_name %></td>
+                        <td><%= '★'.repeat(review.rating) %><%= '☆'.repeat(5 - review.rating) %></td>
+                        <td class="review-text-cell"><%= review.review_text %></td>
+                        <td><%= new Date(review.created_at).toLocaleDateString() %></td>
+                        <td>
+                            <form action="/admin/reviews/<%= review.id %>/delete" method="post" onsubmit="return confirm('Delete this review?')">
+                                <button type="submit" class="btn-small btn-delete">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <div class="admin-back">
+        <a href="/admin">← Back to Dashboard</a>
+    </div>
+</main>
+<%- include('../partials/footer') %>
