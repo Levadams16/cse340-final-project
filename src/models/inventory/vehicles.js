@@ -64,6 +64,21 @@ const getVehicleImages = async (vehicleId) => {
     return result.rows;
 };
 
+const addVehicleImages = async (vehicleId, urls) => {
+    for (let i = 0; i < urls.length; i++) {
+        await db.query(
+            `INSERT INTO vehicle_images (vehicle_id, image_url, is_primary)
+             VALUES ($1, $2, $3)`,
+            [vehicleId, urls[i].trim(), i === 0]
+        );
+    }
+};
+
+const deleteVehicleImages = async (vehicleId) => {
+    const query = `DELETE FROM vehicle_images WHERE vehicle_id = $1`;
+    await db.query(query, [vehicleId]);
+};
+
 const getAllCategories = async () => {
     const query = `SELECT * FROM categories ORDER BY name ASC`;
     const result = await db.query(query);
@@ -116,5 +131,7 @@ export {
     getAllCategories,
     createVehicle,
     updateVehicle,
-    deleteVehicle
+    deleteVehicle,
+    addVehicleImages,
+    deleteVehicleImages
 };

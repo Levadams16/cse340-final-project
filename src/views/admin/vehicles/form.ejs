@@ -5,6 +5,7 @@
     </div>
 
     <form class="admin-form" action="/admin/vehicles/<%= vehicle ? vehicle.id + '/edit' : 'add' %>" method="post">
+
         <div class="form-group">
             <label for="make">Make</label>
             <input type="text" id="make" name="make" value="<%= vehicle ? vehicle.make : '' %>" required>
@@ -20,7 +21,6 @@
                 <label for="year">Year</label>
                 <input type="number" id="year" name="year" min="1900" max="<%= new Date().getFullYear() + 1 %>" value="<%= vehicle ? vehicle.year : '' %>" required>
             </div>
-
             <div class="form-group">
                 <label for="price">Price ($)</label>
                 <input type="number" id="price" name="price" min="0" step="0.01" value="<%= vehicle ? vehicle.price : '' %>" required>
@@ -32,7 +32,6 @@
                 <label for="mileage">Mileage</label>
                 <input type="number" id="mileage" name="mileage" min="0" value="<%= vehicle ? vehicle.mileage : '' %>">
             </div>
-
             <div class="form-group">
                 <label for="color">Color</label>
                 <input type="text" id="color" name="color" value="<%= vehicle ? vehicle.color : '' %>">
@@ -65,10 +64,86 @@
             </div>
         <% } %>
 
+        <!-- Image URLs Section -->
+        <div class="form-group">
+            <label>Image URLs</label>
+            <p class="field-hint">Paste direct image URLs below. The first one will be used as the primary image. Add up to 5.</p>
+
+            <div id="image-url-list">
+                <% if (images && images.length > 0) { %>
+                    <% images.forEach((image, index) => { %>
+                        <div class="image-url-row">
+                            <input 
+                                type="url" 
+                                name="imageUrls" 
+                                value="<%= image.image_url %>" 
+                                placeholder="https://example.com/image.jpg"
+                                class="image-url-input"
+                            >
+                            <% if (image.is_primary) { %>
+                                <span class="primary-badge">Primary</span>
+                            <% } %>
+                            <button type="button" class="btn-small btn-delete remove-url-btn">Remove</button>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="image-url-row">
+                        <input 
+                            type="url" 
+                            name="imageUrls" 
+                            placeholder="https://example.com/image.jpg"
+                            class="image-url-input"
+                        >
+                        <button type="button" class="btn-small btn-delete remove-url-btn">Remove</button>
+                    </div>
+                <% } %>
+            </div>
+
+            <button type="button" id="add-url-btn" class="btn btn-secondary">+ Add Another Image</button>
+        </div>
+
         <div class="form-actions">
             <button type="submit" class="btn btn-primary"><%= vehicle ? 'Save Changes' : 'Add Vehicle' %></button>
             <a href="/admin/vehicles" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </main>
+
+<script>
+    const list = document.getElementById('image-url-list');
+    const addBtn = document.getElementById('add-url-btn');
+    const MAX_IMAGES = 5;
+
+    const updateAddButton = () => {
+        const rows = list.querySelectorAll('.image-url-row');
+        addBtn.disabled = rows.length >= MAX_IMAGES;
+    };
+
+    addBtn.addEventListener('click', () => {
+        const rows = list.querySelectorAll('.image-url-row');
+        if (rows.length >= MAX_IMAGES) return;
+
+        const row = document.createElement('div');
+        row.className = 'image-url-row';
+        row.innerHTML = `
+            <input type="url" name="imageUrls" placeholder="https://example.com/image.jpg" class="image-url-input">
+            <button type="button" class="btn-small btn-delete remove-url-btn">Remove</button>
+        `;
+        list.appendChild(row);
+        updateAddButton();
+    });
+
+    list.addEventListener('click', (e) => {
+        if (e.target.classList.contains('remove-url-btn')) {
+            const rows = list.querySelectorAll('.image-url-row');
+            if (rows.length > 1) {
+                e.target.closest('.image-url-row').remove();
+                updateAddButton();
+            }
+        }
+    });
+
+    updateAddButton();
+</script>
+
 <%- include('../../partials/footer') %>

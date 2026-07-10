@@ -6,7 +6,9 @@ import {
     getAllCategories,
     createVehicle,
     updateVehicle,
-    deleteVehicle
+    deleteVehicle,
+    addVehicleImages,
+    deleteVehicleImages
 } from '../../models/inventory/vehicles.js';
 
 const router = Router();
@@ -45,6 +47,7 @@ const showAddForm = async (req, res) => {
     res.render('admin/vehicles/form', {
         title: 'Add Vehicle',
         vehicle: null,
+        images: [],
         categories,
         styles: []
     });
@@ -52,10 +55,19 @@ const showAddForm = async (req, res) => {
 
 // Process add vehicle form
 const processAddVehicle = async (req, res) => {
-    const { make, model, year, price, mileage, color, description, categoryId } = req.body;
+    const { make, model, year, price, mileage, color, description, categoryId, imageUrls } = req.body;
 
     try {
-        await createVehicle({ make, model, year, price, mileage, color, description, categoryId });
+        const vehicle = await createVehicle({ make, model, year, price, mileage, color, description, categoryId });
+
+        // Handle image URLs — imageUrls may be a single string or an array
+        const urls = Array.isArray(imageUrls) ? imageUrls : [imageUrls];
+        const validUrls = urls.filter(url => url && url.trim() !== '');
+
+        if (validUrls.length > 0) {
+            await addVehicleImages(vehicle.id, validUrls);
+        }
+
         req.flash('success', `${year} ${make} ${model} added successfully.`);
         res.redirect('/admin/vehicles');
     } catch (error) {
@@ -70,10 +82,13 @@ const showEditForm = async (req, res) => {
     const { id } = req.params;
     let vehicle = null;
     let categories = [];
+    let images = [];
 
     try {
         vehicle = await getVehicleById(id);
         categories = await getAllCategories();
+        const { getVehicleImages } = await import('../../models/inventory/vehicles.js');
+        images = await getVehicleImages(id);
     } catch (error) {
         console.error('Error loading vehicle:', error);
     }
@@ -86,6 +101,7 @@ const showEditForm = async (req, res) => {
     res.render('admin/vehicles/form', {
         title: 'Edit Vehicle',
         vehicle,
+        images,
         categories,
         styles: []
     });
@@ -94,7 +110,7 @@ const showEditForm = async (req, res) => {
 // Process edit vehicle form
 const processEditVehicle = async (req, res) => {
     const { id } = req.params;
-    const { make, model, year, price, mileage, color, description, categoryId, isAvailable } = req.body;
+    const { make, model, year, price, mileage, color, description, categoryId, isAvailable, imageUrls } = req.body;
 
     try {
         const updated = await updateVehicle(id, {
@@ -112,6 +128,16 @@ const processEditVehicle = async (req, res) => {
         if (!updated) {
             req.flash('error', 'Vehicle not found.');
             return res.redirect('/admin/vehicles');
+        }
+
+        // Replace all existing images with the new set
+        await deleteVehicleImages(id);
+
+        const urls = Array.isArray(imageUrls) ? imageUrls : [imageUrls];
+        const validUrls = urls.filter(url => url && url.trim() !== '');
+
+        if (validUrls.length > 0) {
+            await addVehicleImages(id, validUrls);
         }
 
         req.flash('success', `${year} ${make} ${model} updated successfully.`);
