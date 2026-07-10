@@ -8,6 +8,7 @@ import {
 import { requireRole } from '../../middleware/auth.js';
 import vehicleAdminRoutes from './vehicles.js';
 import reviewAdminRoutes from './reviews.js';
+import serviceRequestAdminRoutes from './service-requests.js';
 
 const router = Router();
 
@@ -86,5 +87,6 @@ router.post('/users/:id/delete', requireRole('owner'), processDeleteUser);
 
 router.use('/vehicles', vehicleAdminRoutes);
 router.use('/reviews', reviewAdminRoutes);
+router.use('/service-requests', serviceRequestAdminRoutes);
 
 export default router;

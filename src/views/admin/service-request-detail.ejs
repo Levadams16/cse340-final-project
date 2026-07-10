@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+<main>
+    <div class="admin-page-header">
+        <h1><%= title %></h1>
+    </div>
+
+    <div class="service-detail-card">
+        <h2>Request Details</h2>
+        <p><strong>Customer:</strong> <%= request.user_name %> (<%= request.user_email %>)</p>
+        <p><strong>Vehicle:</strong> <%= request.vehicle_description %></p>
+        <p><strong>Service Type:</strong> <%= request.service_type %></p>
+        <p><strong>Description:</strong> <%= request.description %></p>
+        <p><strong>Submitted:</strong> <%= new Date(request.created_at).toLocaleDateString() %></p>
+        <p><strong>Last Updated:</strong> <%= new Date(request.updated_at).toLocaleDateString() %></p>
+        <p>
+            <strong>Current Status:</strong>
+            <span class="status-badge status-<%= request.status.toLowerCase().replace(' ', '-') %>">
+                <%= request.status %>
+            </span>
+        </p>
+        <% if (request.employee_notes) { %>
+            <p><strong>Current Staff Notes:</strong> <%= request.employee_notes %></p>
+        <% } %>
+    </div>
+
+    <div class="service-update-form">
+        <h2>Update Status</h2>
+        <form action="/admin/service-requests/<%= request.id %>" method="post">
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="Submitted" <%= request.status === 'Submitted' ? 'selected' : '' %>>Submitted</option>
+                    <option value="In Progress" <%= request.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+                    <option value="Completed" <%= request.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                    <option value="Cancelled" <%= request.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="employeeNotes">Staff Notes</label>
+                <textarea 
+                    id="employeeNotes" 
+                    name="employeeNotes" 
+                    rows="4"
+                    placeholder="Add notes for the customer about this request..."
+                ><%= request.employee_notes || '' %></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save Update</button>
+                <a href="/admin/service-requests" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</main>
+<%- include('../partials/footer') %>
