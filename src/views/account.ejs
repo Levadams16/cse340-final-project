@@ -1,7 +1,35 @@
 <%- include('partials/header') %>
 <main>
     <h1>My Account</h1>
-    <p>Welcome, <%= user.name %>!</p>
-    <p>Email: <%= user.email %></p>
+
+    <!-- Account Info -->
+    <section class="account-section">
+        <h2>Account Information</h2>
+        <div class="account-info-card">
+            <p><strong>Name:</strong> <%= user.name %></p>
+            <p><strong>Email:</strong> <%= user.email %></p>
+            <p><strong>Role:</strong> <%= user.roleName || 'Customer' %></p>
+            <p><strong>Member since:</strong> <%= new Date(user.created_at).toLocaleDateString() %></p>
+        </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="account-section">
+        <h2>My Activity</h2>
+        <div class="account-links">
+            <a href="/service" class="account-link-card">
+                <h3>Service Requests</h3>
+                <p>View and track your service requests</p>
+            </a>
+            <a href="/reviews/my" class="account-link-card">
+                <h3>My Reviews</h3>
+                <p>View, edit, or delete your vehicle reviews</p>
+            </a>
+            <a href="/inventory" class="account-link-card">
+                <h3>Browse Inventory</h3>
+                <p>Explore available vehicles</p>
+            </a>
+        </div>
+    </section>
 </main>
 <%- include('partials/footer') %>

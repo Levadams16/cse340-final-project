@@ -1,29 +1,61 @@
 <%- include('../partials/header') %>
 <main>
     <h1><%= title %></h1>
-    <p>Welcome, <%= user ? user.name : '' %>. Use the links below to manage the dealership.</p>
+    <p>Welcome, <%= user ? user.name : '' %>. Here's what's happening at the dealership.</p>
 
+    <!-- Operational Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-number"><%= stats.available_vehicles || 0 %></span>
+            <span class="stat-label">Vehicles Available</span>
+        </div>
+        <div class="stat-card stat-alert">
+            <span class="stat-number"><%= stats.pending_requests || 0 %></span>
+            <span class="stat-label">Pending Service Requests</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number"><%= stats.active_requests || 0 %></span>
+            <span class="stat-label">Requests In Progress</span>
+        </div>
+        <div class="stat-card stat-alert">
+            <span class="stat-number"><%= stats.unread_messages || 0 %></span>
+            <span class="stat-label">Unread Messages</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number"><%= stats.total_reviews || 0 %></span>
+            <span class="stat-label">Total Reviews</span>
+        </div>
+        <% if (userRole === 'owner') { %>
+            <div class="stat-card">
+                <span class="stat-number"><%= stats.total_users || 0 %></span>
+                <span class="stat-label">Registered Users</span>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Management Links -->
+    <h2>Manage</h2>
     <div class="admin-links">
         <% if (userRole === 'owner') { %>
             <a href="/admin/users" class="admin-link-card">
-                <h2>Manage Users</h2>
+                <h3>Manage Users</h3>
                 <p>View, promote, and remove user accounts</p>
             </a>
         <% } %>
         <a href="/admin/vehicles" class="admin-link-card">
-            <h2>Manage Vehicles</h2>
+            <h3>Manage Vehicles</h3>
             <p>Add, edit, and remove inventory</p>
         </a>
         <a href="/admin/service-requests" class="admin-link-card">
-            <h2>Service Requests</h2>
-            <p>View and update request statuses</p>
+            <h3>Service Requests</h3>
+            <p><%= stats.pending_requests || 0 %> pending · <%= stats.active_requests || 0 %> in progress</p>
         </a>
         <a href="/admin/contact-messages" class="admin-link-card">
-            <h2>Contact Messages</h2>
-            <p>View messages from customers</p>
+            <h3>Contact Messages</h3>
+            <p><%= stats.unread_messages || 0 %> unread messages</p>
         </a>
         <a href="/admin/reviews" class="admin-link-card">
-            <h2>Moderate Reviews</h2>
+            <h3>Moderate Reviews</h3>
             <p>Remove inappropriate reviews</p>
         </a>
     </div>

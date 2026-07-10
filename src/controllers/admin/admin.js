@@ -9,11 +9,37 @@ import { requireRole } from '../../middleware/auth.js';
 import vehicleAdminRoutes from './vehicles.js';
 import reviewAdminRoutes from './reviews.js';
 import serviceRequestAdminRoutes from './service-requests.js';
+import db from '../../models/db.js';
 
 const router = Router();
 
-const showDashboard = (req, res) => {
-    res.render('admin/dashboard', { title: 'Admin Dashboard', styles: [] });
+const getDashboardStats = async () => {
+    const result = await db.query(`
+        SELECT
+            (SELECT COUNT(*) FROM users) AS total_users,
+            (SELECT COUNT(*) FROM vehicles WHERE is_available = true) AS available_vehicles,
+            (SELECT COUNT(*) FROM service_requests WHERE status = 'Submitted') AS pending_requests,
+            (SELECT COUNT(*) FROM service_requests WHERE status = 'In Progress') AS active_requests,
+            (SELECT COUNT(*) FROM reviews) AS total_reviews,
+            (SELECT COUNT(*) FROM contact_messages WHERE status = 'received') AS unread_messages
+    `);
+    return result.rows[0];
+};
+
+const showDashboard = async (req, res) => {
+    let stats = {};
+
+    try {
+        stats = await getDashboardStats();
+    } catch (error) {
+        console.error('Error loading dashboard stats:', error);
+    }
+
+    res.render('admin/dashboard', {
+        title: 'Admin Dashboard',
+        stats,
+        styles: []
+    });
 };
 
 const showUserManagement = async (req, res) => {
