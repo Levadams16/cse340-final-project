@@ -4,6 +4,7 @@ Project Description
 
 A full-stack car dealership web application built for the CSE 340 Web Backend Development course at BYU-Idaho. The site allows customers to browse vehicle inventory by category, submit service requests, and contact the dealership. Employees and owners can manage vehicle listings through a role-protected admin dashboard. The application is built with Node.js, Express, EJS, and PostgreSQL.
 
+Built with Node.js, Express, EJS, and PostgreSQL. It is also deployed on Render with a BYU-Idaho hosted PostgreSQL database.
 
 
 Database Schema
@@ -36,8 +37,7 @@ Test Account Credentials
 
 Known Limitations
 
-- Service Requests admin page — the Service Requests button on the admin dashboard does not lead to a working page (`/admin/service-requests` is not yet implemented).
-- Contact Messages admin page — the Contact Messages button on the admin dashboard does not lead to a working page (`/admin/contact-messages` is not yet implemented).
-- Moderate Reviews admin page — the Moderate Reviews button on the admin dashboard does not lead to a working page (`/admin/reviews` is not yet implemented).
-- Vehicle images — the vehicle management system supports image URLs via the database schema but the admin add/edit form does not currently include an image upload field.
-- Layout file unused — a `layout.ejs` file exists in `src/views/` but is not actively used; each view manually includes the header and footer partials instead.
+- Contact Messages admin page - the Contact Messages button on the admin dashboard does not lead to a working page (`/admin/contact-messages` is not yet implemented).
+- Vehicle image upload - images are added via URL input rather than direct file upload. Images must be hosted externally and pasted as URLs.
+- Layout file unused - a `layout.ejs` file exists in `src/views/` but is not actively used; each view manually includes the header and footer partials instead.
+- No pagination - the inventory list and admin tables display all records at once with no pagination, which may become slow with a large number of vehicles or users.
