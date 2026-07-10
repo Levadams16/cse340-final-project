@@ -1,0 +1,57 @@
+<%- include('../partials/header') %>
+<main>
+    <div class="admin-page-header">
+        <h1><%= title %></h1>
+    </div>
+
+    <% if (messages.length === 0) { %>
+        <p class="empty-state">No contact messages yet.</p>
+    <% } else { %>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Received</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% messages.forEach(msg => { %>
+                    <tr>
+                        <td><%= msg.name %></td>
+                        <td><a href="mailto:<%= msg.email %>"><%= msg.email %></a></td>
+                        <td><%= msg.subject %></td>
+                        <td class="message-cell"><%= msg.message %></td>
+                        <td>
+                            <span class="status-badge status-<%= msg.status %>">
+                                <%= msg.status %>
+                            </span>
+                        </td>
+                        <td><%= new Date(msg.created_at).toLocaleDateString() %></td>
+                        <td class="action-buttons">
+                            <% if (msg.status !== 'replied' && msg.status !== 'closed') { %>
+                                <form action="/admin/contact-messages/<%= msg.id %>/replied" method="post">
+                                    <button type="submit" class="btn-small btn-edit">Mark Replied</button>
+                                </form>
+                            <% } %>
+                            <% if (msg.status !== 'closed') { %>
+                                <form action="/admin/contact-messages/<%= msg.id %>/closed" method="post">
+                                    <button type="submit" class="btn-small btn-delete">Close</button>
+                                </form>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <div class="admin-back">
+        <a href="/admin">← Back to Dashboard</a>
+    </div>
+</main>
+<%- include('../partials/footer') %>

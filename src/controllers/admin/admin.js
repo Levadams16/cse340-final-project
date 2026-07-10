@@ -10,6 +10,7 @@ import vehicleAdminRoutes from './vehicles.js';
 import reviewAdminRoutes from './reviews.js';
 import serviceRequestAdminRoutes from './service-requests.js';
 import db from '../../models/db.js';
+import contactMessageAdminRoutes from './contact-messages.js';
 
 const router = Router();
 
@@ -114,5 +115,6 @@ router.post('/users/:id/delete', requireRole('owner'), processDeleteUser);
 router.use('/vehicles', vehicleAdminRoutes);
 router.use('/reviews', reviewAdminRoutes);
 router.use('/service-requests', serviceRequestAdminRoutes);
+router.use('/contact-messages', contactMessageAdminRoutes);
 
 export default router;

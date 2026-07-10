@@ -19,4 +19,15 @@ const getAllContactMessages = async () => {
     return result.rows;
 };
 
-export { createContactMessage, getAllContactMessages };
+const updateContactMessageStatus = async (id, status) => {
+    const query = `
+        UPDATE contact_messages
+        SET status = $1
+        WHERE id = $2
+        RETURNING *
+    `;
+    const result = await db.query(query, [status, id]);
+    return result.rows[0] || null;
+};
+
+export { createContactMessage, getAllContactMessages, updateContactMessageStatus };
